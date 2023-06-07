@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Stock inventory status web application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "bella77-69"
+  },
+  "author": "bella77-69",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
