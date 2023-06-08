@@ -4,19 +4,19 @@ const cors = require('cors');
 require ('dotenv').config();
 
 /* Routes */
-
-// const userRouter = require('./routes/user');
+const staffRoutes = require('./routes/staff.route');
 // const statusRouter = require('./routes/status');
 // const postRouter = require('./routes/post');
 
 const PORT = process.env.PORT || 5000;
+
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-// app.use('/user', userRouter);
+app.use('/staff', staffRoutes);
 // app.use('/status', statusRouter);
 // app.use('/post', postRouter);
 
