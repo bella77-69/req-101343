@@ -5,8 +5,8 @@ require ('dotenv').config();
 
 /* Routes */
 const staffRoutes = require('./routes/staff.route');
-// const statusRouter = require('./routes/status');
-// const postRouter = require('./routes/post');
+const stockRoutes = require('./routes/stock.route');
+
 
 const PORT = process.env.PORT || 5000;
 
@@ -17,8 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/staff', staffRoutes);
-// app.use('/status', statusRouter);
-// app.use('/post', postRouter);
+app.use('/stock', stockRoutes);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port: ${process.env.PORT}`);
