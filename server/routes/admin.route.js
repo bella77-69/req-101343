@@ -12,7 +12,6 @@ router.get('/:id', adminController.getAdminById);
 // get admin by email 
 router.get('/admin/:email', adminController.getAdminByEmail);
 
-
 // create new admin
 router.post('/', adminController.createNewAdmin);
 
