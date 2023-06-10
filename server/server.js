@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 
-/* Routes */
 const staffRoutes = require("./routes/staff.route");
 const stockRoutes = require("./routes/stock.route");
 const adminRoutes = require("./routes/admin.route");

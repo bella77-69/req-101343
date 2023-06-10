@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-function InventoryId(props) {
+function InventoryId({ match, location }) {
   const [inventory, setInventory] = useState([]);
-  const { id } = props.match.params;
-  const categorizeItem = props.location.state?.categorizeItem;
-  console.log(categorizeItem);
+  const { id } = match.params;
+  const categorizeItem = location.state?.categorizeItem;
+
   useEffect(() => {
     fetch(`http://localhost:5000/stock/${id}`)
       .then((res) => res.json())
@@ -12,6 +12,7 @@ function InventoryId(props) {
         setInventory(result);
       });
   }, [id]);
+  
 
   const backHome = (e) => {
     e.preventDefault();
@@ -23,42 +24,54 @@ function InventoryId(props) {
     window.location.href = "/inventory";
   };
 
+  const editInventory = (e) => {
+    e.preventDefault();
+    // window.location.href = `edit/${id}`;
+    window.location.href = `/dashboard/edit/${id}`;
+  };
+
   return (
     <section className="content">
-      <div className="container team py-5">
-        <div className="text-center">
-          <h1 className="font-bold text-uppercase">Inventory Profile</h1>
-        </div>
-        <div className="card mt-5">
-          {inventory.map((inventory, index) => (
-            <div
-              className="d-flex flex-column justify-center align-items-center mt-3"
-              key={index}
-            >
-              <h4 className="text-lg lg:text-3xl uppercase">
-                {categorizeItem}
-              </h4>
+      <div className="container pt-5">
+        <h1 className="text-center">Inventory Profile</h1>
 
-              <div className="my-auto d-flex flex-column justify-center align-items-center">
-                <h6 className="">Id: {inventory.id}</h6>
-                <h5 className="">Color: {inventory.color}</h5>
-                <h6 className="">Stock: {inventory.stock}</h6>
-              </div>
-              <div className="my-auto justify-center">
-                <button onClick={(e) => backHome(e)} className="btn mr-3 mt-2">
-                  Back to Homepage
-                </button>
+        <div className="d-flex justify-content-center align-items-center mt-5">
+          <div className="col-md-6 col-sm-12">
+            <div className="card">
+              <div className="card-header">{categorizeItem}</div>
 
-                <button
-                  onClick={(e) => backInventory(e)}
-                  className="btn mr-3 mt-2"
-                >
-                  Back to Inventory
-                </button>
-              </div>
-              <div className="my-auto justify-center"></div>
+              {inventory.map((item, index) => (
+                <div className="card-body" key={item.id}>
+                  <p className="mb-0">Id: {item.id}</p>
+                  <p className="mb-0">Color: {item.color}</p>
+                  <p className="mb-0">Stock: {item.stock}</p>
+                  <div className="d-flex justify-content-between">
+                    <button
+                      onClick={(e) => editInventory(e)}
+                      className="btn btn-sm mt-2 mr-2"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <button
+                      onClick={(e) => backHome(e)}
+                      className="btn btn-sm mt-2 mr-2"
+                    >
+                      Back to Homepage
+                    </button>
+
+                    <button
+                      onClick={(e) => backInventory(e)}
+                      className="btn btn-sm mt-2"
+                    >
+                      Back to Inventory
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

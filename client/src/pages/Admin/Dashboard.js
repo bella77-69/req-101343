@@ -1,14 +1,16 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { logout, isLogin } from "../../Utils/index";
 
 class Dashboard extends Component {
   state = {
-    items: [],
+    inventory: [],
+    currentInventory: {},
     isLogin: isLogin(),
   };
 
-  handleLogout = () => {
+    handleLogout = () => {
     logout();
     this.setState({
       isLogin: false,
@@ -16,40 +18,88 @@ class Dashboard extends Component {
     window.location.href = `/`;
   };
 
-  addStock = (e) => {
-    e.preventDefault();
-    window.location.href = `/dashboard/add-stock`;
+  componentDidMount = () => {
+    fetch("http://localhost:5000/stock")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          inventory: data,
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
-  login = (e) => {
-    e.preventDefault();
-    window.location.href = `/login`;
+  componentDidUpdate = () => {
+    const id = this.props.match.params.id || this.state.inventory[0]?.id;
+    if (id && id !== this.state.currentInventory.id) {
+      axios
+        .get(`http://localhost:5000/stock/${id}`)
+        .then((res) => {
+          this.setState({
+            currentInventory: res.data[0],
+            admin: res.data,
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 
-  addStaff = (e) => {
-    e.preventDefault();
-    window.location.href = `/dashboard/add-staff`;
+  handleSubmit = (id, e) => {
+    e.preventDefault(id);
+    axios
+      .get(`http://localhost:5000/stock/${id}`)
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          currentInventory: res.data[0],
+        });
+        window.location.href = `/inventory/${id}`;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
-  componentDidMount() {
-    axios.get(`http://localhost:5000/stock/`).then((response) => {
-      const items = response.data;
-      this.setState({ items });
-    });
-  }
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
+      currentInventory: {
+        ...prevState.currentInventory,
+        [name]: value,
+      },
+    }));
+  };
+  
+  categorizeItem = (item) => {
+    if (item.stock < 1) {
+      return "Out of Stock";
+    } else if (item.stock < 500) {
+      return "Running Low";
+    } else {
+      return "Available";
+    }
+  };
 
-  deleteRow(id, e) {
+  updateInventory = (e) => {
     e.preventDefault();
-    axios.delete(`http://localhost:5000/stock/${id}`).then((response) => {
-      console.log(response.data);
+    const { currentInventory } = this.state;
+    const id = currentInventory.id;
 
-      const items = this.state.items.filter((item) => item.id !== id);
-      this.setState({ items });
-      window.location.href = `/dashboard`;
-    });
-  }
+    axios
+      .put(`http://localhost:5000/stock/${id}`, currentInventory)
+      .then((res) => {
+        console.log(res);
+     
+        this.props.history.push("/dashboard");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-  editRow(id, e) {
+    editRow(id, e) {
     e.preventDefault();
     axios
       .get(`http://localhost:5000/stock/${id}`)
@@ -58,84 +108,76 @@ class Dashboard extends Component {
         this.setState({
           currentInventoryId: response.data[0],
         });
-        window.location.href = `/dashboard/edit/${id}`;
+        window.location.href = `dashboard/edit/${id}`;
       })
       .catch((err) => {
         console.error(err);
       });
   }
-
   render() {
+    const kanbanCategories = {
+      Available: [],
+      "Running Low": [],
+      "Out of Stock": [],
+    };
+
+    // Categorize inventory items
+    this.state.inventory.forEach((inventory) => {
+      const category = this.categorizeItem(inventory);
+      kanbanCategories[category].push(inventory);
+    });
+
     return (
       <div className="content">
-        <h2 className="h2 text-center mb-4 mt-3 mx-2">Admin Dashboard</h2>
-        <div className="container mt-3">
-          <button
-            className="btn btn-primary"
-            onClick={() => this.handleLogout()}
-          >
-            Click here to log out
-          </button>
-        </div>
-
-        <div className="container mt-3">
-          <button onClick={(e) => this.login(e)} className="btn btn-primary">
-            Go to Login in page
-          </button>
-        </div>
-        <div className="container mt-3">
-          <button onClick={(e) => this.addStock(e)} className="btn btn-primary">
-            Add Stock
-          </button>
-        </div>
-
-        <div className="container">
-          <div className="row mx-4 ">
-            <h2 className="h2 text-center mb-4 mt-3 ">Inventory</h2>
+        <div className="container mt-5">
+          <h1 className="text-center">Inventory</h1>
+          <div className="row mt-5">
+            {Object.entries(kanbanCategories).map(([category, items]) => (
+              <div className="col-md-4 mb-4" key={category}>
+                <div className="card">
+                  <div className="card-header">{category}</div>
+                  <div className="card-body">
+                    {items.map((inventory, index) => (
+                      <div className="card" key={index}>
+                        <div className="card-body">
+                          <p className="mb-0">Color: {inventory.color}</p>
+                          <p className="mb-0">Stock: {inventory.stock}</p>
+                          <div>
+                            <button
+                              className="btn btn-sm mt-2"
+                              onClick={(e) =>
+                                this.handleSubmit(inventory.id, e)
+                              }
+                            >
+                              <Link
+                                to={{
+                                  pathname: `/inventory/${inventory.id}`,
+                                  state: {
+                                    categorizeItem:
+                                      this.categorizeItem(inventory),
+                                  },
+                                }}
+                                className="card-link"
+                              >
+                                More Info
+                              </Link>
+                              
+                            </button>
+                         <button
+                          className="btn btn-success"
+                          onClick={(e) => this.editRow(inventory.id, e)}
+                        >
+                          Edit/Update
+                        </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-          <table className="table table-striped table-responsive mx-4">
-            <thead>
-              <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Color</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Available</th>
-                <th scope="col">Running Low</th>
-                <th scope="col">Out Of Stock</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {this.state.items.map((item, index) => (
-                <tr key={index}>
-                  <th scope="row">{item.id}</th>
-                  <td>{item.color}</td>
-                  <td>{item.stock}</td>
-                  <td>{item.available}</td>
-                  <td>{item.runningLow}</td>
-                  <td>{item.outOfStock}</td>
-                  <td>
-                    <button
-                      className="btn btn-success"
-                      onClick={(e) => this.editRow(item.id, e)}
-                    >
-                      Edit
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger"
-                      onClick={(e) => this.deleteRow(item.id, e)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     );
