@@ -7,7 +7,7 @@ function Sidebar(props) {
     <div className="sidebar">
       <Nav.Link href="/">Home</Nav.Link>
       <Nav.Link href="/inventory">Inventory</Nav.Link>
-      <Nav.Link href="/staff">Staff</Nav.Link>
+      <Nav.Link href="/update">Paint Update</Nav.Link>
       <Nav.Link href="/login">Login</Nav.Link>
     </div>
   );

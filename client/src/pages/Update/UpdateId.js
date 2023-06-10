@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function EditInventory({ match }) {
+function UpdateId({ match }) {
   const [inventory, setInventory] = useState({});
   const [initialInventory, setInitialInventory] = useState({});
   const [inventoryRunningLow, setInventoryRunningLow] = useState(false);
@@ -25,8 +25,7 @@ function EditInventory({ match }) {
       })
       .then((res) => {
         console.log(res);
-        window.location.href = `/dashboard`;
-        alertAdmin();
+        window.location.href = `/inventory `;
       })
       .catch((err) => {
         console.error(err);
@@ -47,17 +46,6 @@ function EditInventory({ match }) {
 
   const isValueChanged = (field) => {
     return inventory[field] !== initialInventory[field];
-  };
-
-  const alertAdmin = () => {
-    axios
-      .put(`http://localhost:5000/alert`)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 
   return (
@@ -111,7 +99,7 @@ function EditInventory({ match }) {
                       </label>
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn btn-secondary mt-2">
                     Update Inventory
                   </button>
                 </form>
@@ -124,4 +112,4 @@ function EditInventory({ match }) {
   );
 }
 
-export default EditInventory;
+export default UpdateId;

@@ -8,8 +8,9 @@ import Dashboard from "./pages/Admin/Dashboard";
 import PrivateRoute from "./Routes/PrivateRoute";
 import EditInventory from "./components/Edit/EditInventory";
 import Home from "./pages/Home/Home";
-import Staff from "./pages/Staff/Staff";
 import { isAuthenticated } from "./services/auth";
+import Update from "./pages/Update/Update";
+import UpdateId from "./pages/Update/UpdateId";
 
 function App() {
   return (
@@ -24,10 +25,10 @@ function App() {
             path="/inventory/:id"
             render={(routerProps) => <InventoryId {...routerProps} />}
           />
-          <Route path="/edit/:id" exact component={Staff} />
-          <Route path="/staff" exact component={Staff} />
+          <Route path="/update/:id" exact component={UpdateId} />
+          <Route path="/update" exact component={Update} />
 
-          <PrivateRoute
+          {/* <PrivateRoute
             path="/dashboard"
             exact
             component={Dashboard}
@@ -38,7 +39,7 @@ function App() {
             exact
             component={EditInventory}
             isAuthenticated={isAuthenticated}
-          />
+          /> */}
         </Switch>
       </>
     </Router>

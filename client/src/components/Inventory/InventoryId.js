@@ -12,7 +12,6 @@ function InventoryId({ match, location }) {
         setInventory(result);
       });
   }, [id]);
-  
 
   const backHome = (e) => {
     e.preventDefault();
@@ -26,54 +25,52 @@ function InventoryId({ match, location }) {
 
   const editInventory = (e) => {
     e.preventDefault();
-    // window.location.href = `edit/${id}`;
-    window.location.href = `/dashboard/edit/${id}`;
+    window.location.href = `/update/${id}`;
   };
 
   return (
     <section className="content">
-      <div className="container pt-5">
-        <h1 className="text-center">Inventory Profile</h1>
+      {inventory.map((item, index) => (
+        <div className="container pt-5" key={item.id}>
+          <h1 className="text-center">{item.color} Stock Status</h1>
+          <div className="text-center">
+            <button
+              onClick={(e) => backHome(e)}
+              className="btn btn-secondary mt-2 mr-2"
+            >
+              Back to Homepage
+            </button>
 
-        <div className="d-flex justify-content-center align-items-center mt-5">
-          <div className="col-md-6 col-sm-12">
-            <div className="card">
-              <div className="card-header">{categorizeItem}</div>
+            <button
+              onClick={(e) => backInventory(e)}
+              className="btn btn-secondary mt-2"
+            >
+              Back to Inventory
+            </button>
+          </div>
+          <div className="d-flex justify-content-center align-items-center mt-5">
+            <div className="col-md-6 col-sm-12">
+              <div className="card">
+                <div className="card-header swimlane">{categorizeItem}</div>
 
-              {inventory.map((item, index) => (
-                <div className="card-body" key={item.id}>
+                <div className="card-body">
                   <p className="mb-0">Id: {item.id}</p>
                   <p className="mb-0">Color: {item.color}</p>
                   <p className="mb-0">Stock: {item.stock}</p>
                   <div className="d-flex justify-content-between">
                     <button
                       onClick={(e) => editInventory(e)}
-                      className="btn btn-sm mt-2 mr-2"
+                      className="btn btn-secondary mt-2 mr-2"
                     >
-                      Edit
-                    </button>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <button
-                      onClick={(e) => backHome(e)}
-                      className="btn btn-sm mt-2 mr-2"
-                    >
-                      Back to Homepage
-                    </button>
-
-                    <button
-                      onClick={(e) => backInventory(e)}
-                      className="btn btn-sm mt-2"
-                    >
-                      Back to Inventory
+                      Update Inventory
                     </button>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ))}
     </section>
   );
 }
