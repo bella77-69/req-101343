@@ -4,12 +4,12 @@ require("dotenv").config();
 let dbConn = null;
 function handleDisconnect() {
   dbConn = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-  });
-
+    host: 'us-cdbr-east-06.cleardb.net',
+    user: 'b5cce34fc7a41a',
+    password: '4307fec9',
+    database: 'heroku_8670bcda6244736',
+  })
+  mysql:
   dbConn.connect(function (err) {
     if (err) {
       console.log("error when connecting to db:", err);
