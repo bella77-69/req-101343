@@ -5,7 +5,7 @@ function InventoryEdit({ match, history }) {
   const [stock, setStock] = useState(0);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/stock/${id}`)
+    fetch(`https://peaceful-tor-21662.herokuapp.com/${id}`)
       .then((res) => res.json())
       .then((result) => {
         setStock(result.stock);
@@ -16,7 +16,7 @@ function InventoryEdit({ match, history }) {
   }, [id]);
 
   const updateStock = () => {
-    fetch(`http://localhost:5000/stock/${id}`, {
+    fetch(`https://peaceful-tor-21662.herokuapp.com/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

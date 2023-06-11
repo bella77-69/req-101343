@@ -4,7 +4,7 @@ function Update() {
   const [inventory, setInventory] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/stock")
+    fetch("https://peaceful-tor-21662.herokuapp.com/stock")
       .then((res) => res.json())
       .then((result) => {
         setInventory(result);
