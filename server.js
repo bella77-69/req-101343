@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 
-const staffRoutes = require("./routes/staff.route");
+const staffRoutes = require('./routes/staff.route');
 const stockRoutes = require("./routes/stock.route");
 
 const PORT = process.env.PORT || 5000;
