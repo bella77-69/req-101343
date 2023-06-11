@@ -9,7 +9,7 @@ function handleDisconnect() {
     password: '4307fec9',
     database: 'heroku_8670bcda6244736',
   })
-  mysql:
+  
   dbConn.connect(function (err) {
     if (err) {
       console.log("error when connecting to db:", err);
