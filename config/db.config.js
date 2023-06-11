@@ -5,11 +5,12 @@ let dbConn = null;
 function handleDisconnect() {
   dbConn = mysql.createConnection({
     host: 'us-cdbr-east-06.cleardb.net',
-    user: 'b5cce34fc7a41a',
-    password: '4307fec9',
-    database: 'heroku_8670bcda6244736',
+    user: 'b62cc823c7528d',
+    password: 'f2921df2',
+    database: 'heroku_8bca343639a1c46',
   });
-  
+
+
   dbConn.connect(function (err) {
     if (err) {
       console.log("error when connecting to db:", err);

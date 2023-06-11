@@ -6,7 +6,6 @@ require("dotenv").config();
 const staffRoutes = require('./routes/staff.route');
 const stockRoutes = require("./routes/stock.route");
 
-const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
@@ -20,10 +19,16 @@ app.use(bodyParser.json());
 app.use("/staff", staffRoutes);
 app.use("/stock", stockRoutes);
 
+const PORT = process.env.PORT || 5000;
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
+app.listen(PORT, (req, res) => {
+  console.log(`Server connected to port: ${PORT}`);
 });
