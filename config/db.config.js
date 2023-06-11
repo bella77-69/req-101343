@@ -8,7 +8,7 @@ function handleDisconnect() {
     user: 'b5cce34fc7a41a',
     password: '4307fec9',
     database: 'heroku_8670bcda6244736',
-  })
+  });
   
   dbConn.connect(function (err) {
     if (err) {
