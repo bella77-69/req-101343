@@ -6,7 +6,7 @@ function InventoryId({ match, location }) {
   const categorizeItem = location.state?.categorizeItem;
 
   useEffect(() => {
-    fetch(`https://peaceful-tor-21662.herokuapp.com/${id}`)
+    fetch(`https://peaceful-tor-21662.herokuapp.com/stock/${id}`)
       .then((res) => res.json())
       .then((result) => {
         setInventory(result);

@@ -8,7 +8,7 @@ function UpdateId({ match }) {
   const { id } = match.params;
 
   useEffect(() => {
-    fetch(`https://peaceful-tor-21662.herokuapp.com/${id}`)
+    fetch(`https://peaceful-tor-21662.herokuapp.com/stock/${id}`)
       .then((res) => res.json())
       .then((result) => {
         setInventory(result);
@@ -19,13 +19,13 @@ function UpdateId({ match }) {
   const updateInventory = (e) => {
     e.preventDefault();
     axios
-      .put(`https://peaceful-tor-21662.herokuapp.com/${id}`, {
+      .put(`https://peaceful-tor-21662.herokuapp.com/stock/${id}`, {
         ...inventory,
         runningLow: inventoryRunningLow,
       })
       .then((res) => {
         console.log(res);
-        window.location.href = `/inventory `;
+        window.location.href = `/inventory`;
       })
       .catch((err) => {
         console.error(err);

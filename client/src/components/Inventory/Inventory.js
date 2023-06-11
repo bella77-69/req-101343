@@ -28,7 +28,7 @@ const Inventory = ({ match }) => {
 
   const fetchInventoryItem = (id) => {
     axios
-      .get(`https://peaceful-tor-21662.herokuapp.com/${id}`)
+      .get(`https://peaceful-tor-21662.herokuapp.com/stock/${id}`)
       .then((res) => {
         setCurrentInventory(res.data);
       })
@@ -44,7 +44,7 @@ const Inventory = ({ match }) => {
   const editRow = (id, e) => {
     e.preventDefault();
     axios
-      .get(`https://peaceful-tor-21662.herokuapp.com/${id}`)
+      .get(`https://peaceful-tor-21662.herokuapp.com/stock/${id}`)
       .then((response) => {
         console.log(response.data);
         setCurrentInventory(response.data[0]);
