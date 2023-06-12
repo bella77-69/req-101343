@@ -4,7 +4,6 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
 
-const staffRoutes = require('./routes/staff.route');
 const stockRoutes = require("./routes/stock.route");
 
 const app = express();
@@ -12,7 +11,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use("/staff", staffRoutes);
 app.use("/stock", stockRoutes);
 
 if (process.env.NODE_ENV === "production") {
