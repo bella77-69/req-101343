@@ -2,7 +2,7 @@ import React from "react";
 import { Nav } from "react-bootstrap";
 import "./sidebar.css";
 
-function Sidebar(props) {
+function Sidebar() {
   return (
     <div className="sidebar">
       <Nav.Link href="/">Home</Nav.Link>

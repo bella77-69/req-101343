@@ -22,9 +22,9 @@ function Inventory() {
   };
 
   const getSwimLane = (stock) => {
-    if (stock < 5) {
+    if (stock < 11) {
       return "Out of Stock";
-    } else if (stock < 300) {
+    } else if (stock < 301) {
       return "Running Low";
     } else {
       return "Available";
@@ -48,15 +48,15 @@ function Inventory() {
         <h1 className="text-center">Latest Inventory</h1>
         <div className="row mt-5">
           <div className="col-md-4 mb-4">
-            <h2>Available</h2>
+            <h2 className="text-center">Available</h2>
             {kanbanCategories["Available"].map((item) => (
-              <div className="card" key={item.id}>
+              <div className="card mb-3" key={item.id}>
                 <div className="card-body">
                   <h5 className="card-title">Stock Color: {item.color}</h5>
                   <p className="card-text">Stock Available: {item.stock}</p>
                   <p className="card-text">
                     Status:{" "}
-                    <span style={{ color: "green" }}>{"Available"}</span>
+                    <span className="text-success bold-text">Available</span>
                   </p>
                   <button
                     onClick={() => moreInfo(item.id)}
@@ -78,8 +78,8 @@ function Inventory() {
               </div>
             ))}
           </div>
-          <div className="col">
-            <h2>Running Low</h2>
+          <div className="col-md-4 mb-4">
+            <h2 className="text-center">Running Low</h2>
             {kanbanCategories["Running Low"].map((item) => (
               <div className="card mb-3" key={item.id}>
                 <div className="card-body">
@@ -87,7 +87,7 @@ function Inventory() {
                   <p className="card-text">Stock Available: {item.stock}</p>
                   <p className="card-text">
                     Status:{" "}
-                    <span style={{ color: "orange" }}>{"Running Low"}</span>
+                    <span className="text-warning bold-text">Running Low</span>
                   </p>
                   <button
                     onClick={() => moreInfo(item.id)}
@@ -109,8 +109,8 @@ function Inventory() {
               </div>
             ))}
           </div>
-          <div className="col">
-            <h2>Out of Stock</h2>
+          <div className="col-md-4 mb-4">
+            <h2 className="text-center">Out of Stock</h2>
             {kanbanCategories["Out of Stock"].map((item) => (
               <div className="card mb-3" key={item.id}>
                 <div className="card-body">
@@ -118,9 +118,8 @@ function Inventory() {
                   <p className="card-text">Stock Available: {item.stock}</p>
                   <p className="card-text">
                     Status:{" "}
-                    <span style={{ color: "red" }}>{"Out of Stock"}</span>
+                    <span className="text-danger bold-text">Out of Stock</span>
                   </p>
-
                   <button
                     onClick={() => moreInfo(item.id)}
                     className="btn btn-secondary ml-2"

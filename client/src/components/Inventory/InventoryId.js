@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
+import "./inventory.css";
 
-function InventoryId({ match, location }) {
+function InventoryId({ match }) {
   const [inventory, setInventory] = useState([]);
   const { id } = match.params;
-  const categorizeItem = location.state?.categorizeItem;
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -53,14 +53,15 @@ function InventoryId({ match, location }) {
   };
 
   const getStockStatusColor = () => {
-    if (categorizeItem === "Available") {
-      return "green";
-    } else if (categorizeItem === "Running Low") {
-      return "orange";
-    } else if (categorizeItem === "Out of Stock") {
-      return "red";
+    const stockStatus = inventory[0]?.stock;
+
+    if (stockStatus < 11) {
+      return "red"; // Out of Stock
+    } else if (stockStatus < 301) {
+      return "orange"; // Running Low
+    } else {
+      return "green"; // Available
     }
-    return "";
   };
 
   return (
@@ -85,25 +86,29 @@ function InventoryId({ match, location }) {
           </div>
           <div className="d-flex justify-content-center align-items-center mt-5">
             <div className="col-md-6 col-sm-12">
-              <div className="card">
-                <div className="card-header swimlane">
-                  <h2 style={{ color: getStockStatusColor() }}>
-                    {categorizeItem}
-                  </h2>
-                </div>
-
-                <div className="card-body">
-                  <p className="mb-0">Id: {item.id}</p>
-                  <p className="mb-0">Color: {item.color}</p>
-                  <p className="mb-0">Stock: {item.stock}</p>
-                  <div className="d-flex justify-content-between">
-                    <button
-                      onClick={(e) => editInventory(e)}
-                      className="btn btn-secondary mt-2 mr-2"
+              <div className="card text-center">
+                <div className="card-header">
+                  <h5 className="card-title">Stock Color: {item.color}</h5>
+                  <p className="card-text">Stock Available: {item.stock}</p>
+                  <p className="card-text">
+                    Status:{" "}
+                    <span
+                      className="bold-text"
+                      style={{ color: getStockStatusColor() }}
                     >
-                      Update Inventory
-                    </button>
-                  </div>
+                      {item.stock < 11
+                        ? "Out of Stock"
+                        : item.stock < 301
+                        ? "Running Low"
+                        : "Available"}
+                    </span>
+                  </p>
+                  <button
+                    onClick={(e) => editInventory(e)}
+                    className="btn btn-secondary mt-2 mr-2"
+                  >
+                    Update Inventory
+                  </button>
                 </div>
               </div>
             </div>
@@ -116,6 +121,12 @@ function InventoryId({ match, location }) {
         </Modal.Header>
         <Modal.Body>
           <p>Update {inventory[0]?.color}</p>
+          <p>Current Stock: {inventory[0]?.stock}</p>
+          <p className="font-italic">
+            Paint will be updated automatically to 'Running Low' when inventory
+            falls below 300, and updated to 'Out of Stock' when inventory falls
+            below 10
+          </p>
           <form onSubmit={handleFormSubmit}>
             <div className="form-group">
               <label htmlFor="color">Color</label>
@@ -139,6 +150,7 @@ function InventoryId({ match, location }) {
                 onChange={(e) => setStock(e.target.value)}
               />
             </div>
+
             <Button variant="primary" type="submit">
               Save Changes
             </Button>
