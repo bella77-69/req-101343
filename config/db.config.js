@@ -9,11 +9,11 @@ function handleDisconnect() {
     // password: process.env.DB_PASSWORD,
     // database: process.env.DB_DATABASE,
     host: 'us-cdbr-east-06.cleardb.net',
-    user: 'b62cc823c7528d',
-    password: 'f2921df2',
-    database: 'heroku_8bca343639a1c46',
+    user: 'bceb0bbaa4f9af',
+    password: 'acd65c6b',
+    database: 'heroku_ec7f6ec0f6cd80c',
   });
-
+  mysql://bceb0bbaa4f9af:acd65c6b@us-cdbr-east-06.cleardb.net/heroku_ec7f6ec0f6cd80c?reconnect=true
 
   dbConn.connect(function (err) {
     if (err) {
