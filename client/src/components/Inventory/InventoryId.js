@@ -38,7 +38,7 @@ function InventoryId({ match }) {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const updatedInventory = { color, stock };
-    fetch(`https://peaceful-tor-21662.herokuapp.com/stock/${id}`, {
+    fetch(`https://peaceful-tor-21662-7bbc4034299b.herokuapp.com/stock/${id}`, {
       // fetch(`http://localhost:5000/stock/${id}`, {
       method: "PUT",
       headers: {
