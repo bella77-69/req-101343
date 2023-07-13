@@ -10,7 +10,7 @@ function Inventory() {
 
   //The fetchInventory function is defined to make a network request to the specified API endpoint. It fetches the data, converts the response to JSON format, and updates the inventory state using the setInventory function from the useState hook.
   const fetchInventory = () => {
-    fetch("https://peaceful-tor-21662.herokuapp.com/stock")
+    fetch(`https://peaceful-tor-21662-7bbc4034299b.herokuapp.com/stock`)
     // fetch(`http://localhost:5000/stock`)
       .then((res) => res.json())
       .then((result) => {
@@ -58,7 +58,7 @@ function Inventory() {
             {kanbanCategories["Available"].map((item) => (
               <div className="card mb-3" key={item.id}>
                 <div className="card-body">
-                  {/* <h5 className="card-title">Stock Color: {item.color}</h5> */}
+                  <h5 className="card-title">Stock Color: {item.color}</h5>
                   <p className="card-text">Stock Available: {item.stock}</p>
                   <p className="card-text">
                     Status:{" "}

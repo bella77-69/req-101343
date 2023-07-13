@@ -14,7 +14,7 @@ function InventoryId({ match }) {
 
   //the useEffect hook is used to fetch the details of the inventory item from the API when the component mounts or when the id URL parameter changes. It makes a GET request to the specified API endpoint, converts the response to JSON format, and updates the inventory state variable with the fetched data.
   useEffect(() => {
-    fetch(`https://peaceful-tor-21662.herokuapp.com/stock/${id}`)
+    fetch(`https://peaceful-tor-21662-7bbc4034299b.herokuapp.com/stock/${id}`)
     // fetch(`http://localhost:5000/stock/${id}`)
       .then((res) => res.json())
       .then((result) => {
@@ -130,7 +130,7 @@ function InventoryId({ match }) {
           <Modal.Title>Update Inventory</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Update {inventory[0]?.color}</p>
+          {/* <p>Update {inventory[0]?.color}</p> */}
           <p>Current Stock: {inventory[0]?.stock}</p>
           <p className="font-italic">
             Paint will be updated automatically to 'Running Low' when inventory
